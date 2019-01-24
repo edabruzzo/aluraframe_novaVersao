@@ -63,5 +63,29 @@
     <script src="scripts/index.js"></script>
     <script src="scripts/capitulo_1.js"></script>
     <script src="scripts/model/Negociacao.js"></script>
+    <script>
+    
+    var n1 = new Negociacao(new Date(), 5, 700);
+
+
+var amanha = new Date();
+amanha.setDate(25);
+console.log('DATA A SER SETADA : '+amanha);
+dataOriginal = n1.data;
+Object.freeze(dataOriginal);
+n1.data = amanha;
+console.log('Usando n1.data = amanha / verificando n1.data : '+n1.data);
+console.log('A DATA DO OBJETO n1 FOI ALTERADA? : '+n1.data);
+console.log('Data original: '+dataOriginal);
+
+n1.data.setDate(26);
+console.log('Usando n1.data.setDate(26) - verificando n1.data : '+n1.data);
+console.log('A DATA DO OBJETO n1 FOI ALTERADA? : '+n1.data);
+console.log('Data original: '+dataOriginal);
+
+    
+    
+    </script>
+
 </body>
 </html>

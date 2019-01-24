@@ -55,9 +55,22 @@ api.cadastraNegociacao = function(req, res) {
    res.status(200).json("Negociação recebida");
 };
 
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+//import {Negociacao} from ('/scripts/model/Negociacao.js');
 
-  
+//var Negociacao_ = require('./model/Negociacao');
+/*
+var n1 = new Negociacao(new Date(), 5, 700);
 
+    console.log(n1.data);
 
+    var amanha = new Date();
+    amanha.setDate(n1.data+1);
+
+    n1.data = amanha;
+
+    console.log(n1.data);  
+
+*/
 //module.exports = api;
 
