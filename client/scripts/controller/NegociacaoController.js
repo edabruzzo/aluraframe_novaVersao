@@ -3,7 +3,14 @@ class NegociacaoController {
  
     constructor(){
 
+          //a função bind(document) amarra a variável $ ao documento por conta da perda de escopo
+          let $ = document.querySelector.bind(document);
+          this.inputData = $('#data');
+          this.inputQuantidade =  $('#quantidade');
+          this.inputValor = $('#valor');
+
     }
+
 
 
     adicionaNegociacao(event) {
@@ -12,9 +19,9 @@ class NegociacaoController {
 
 
         let campos = [
-            document.querySelector('#data'),
-            document.querySelector('#valor'),
-            document.querySelector('#quantidade')
+            this.inputData,
+            this.inputQuantidade,
+            this.inputValor
         ];
 
         console.log(campos);
@@ -52,15 +59,10 @@ class NegociacaoController {
     adiciona(event) {
         event.preventDefault();
 
-        //a função bind(document) amarra a variável $ ao documento por conta da perda de escopo
-        let $ = document.querySelector.bind(document);
-        let inputData = $('#data');
-        let inputQuantidade =  $('#quantidade');
-        let inputValor = $('#valor');
-
         console.log(inputData.value);
         console.log(inputQuantidade.value);
         console.log(inputValor.value);
+    }
 
 
 
