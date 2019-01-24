@@ -2,7 +2,7 @@ class NegociacaoController {
 
  
     constructor(){
-        
+
     }
 
 
@@ -46,6 +46,21 @@ class NegociacaoController {
 
 
     }
+
+
+    //Outra forma de se fazer a mesma coisa em adicionaNegociacao(event)
+    adiciona(event) {
+        event.preventDefault();
+
+        //a função bind(document) amarra a variável $ ao documento por conta da perda de escopo
+        let $ = document.querySelector.bind(document);
+        let inputData = $('#data');
+        let inputQuantidade =  $('#quantidade');
+        let inputValor = $('#valor');
+
+        console.log(inputData.value);
+        console.log(inputQuantidade.value);
+        console.log(inputValor.value);
 
 
 
