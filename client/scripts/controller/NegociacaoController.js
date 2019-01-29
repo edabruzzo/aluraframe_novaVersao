@@ -8,6 +8,9 @@ class NegociacaoController {
           this.inputData = $('#data');
           this.inputQuantidade =  $('#quantidade');
           this.inputValor = $('#valor');
+          this._listaNegociacoes = new ListaNegociacoes();
+          this._negociacoesView = new NegociacoesView($('#negociacoesView'));
+          //this._negociacoesView.update();
 
     }
 
@@ -42,11 +45,7 @@ class NegociacaoController {
         tdVolume.textContent = campos[1].value * campos[2].value;
         tr.appendChild(tdVolume);
 
-        campos[0].value = '';
-        campos[1].value = 1;
-        campos[2].value = 0;
-
-        campos[0].focus();
+        this._limpaFormulario();
 
         tbody.appendChild(tr);
 
@@ -57,11 +56,36 @@ class NegociacaoController {
 
     //Outra forma de se fazer a mesma coisa em adicionaNegociacao(event)
     adiciona(event) {
-        event.preventDefault();
 
-        console.log(inputData.value);
-        console.log(inputQuantidade.value);
-        console.log(inputValor.value);
+       event.preventDefault();
+        alert('Entrou no método adiciona do controller');
+        this._listaNegociacoes.adiciona(this._criaNegociacao());
+        console.log(this._listaNegociacoes.negociacoes);
+        this._negociacoesView.update(this._listaNegociacoes);
+        this._limpaFormulario();
+       
+
+    }
+
+
+    _criaNegociacao(){
+
+    return 
+    new Negociacao(
+        DateHelper.textoParaData(this._inputData.value),
+        this._inputQuantidade.value,
+        this._inputValor.value
+    );
+
+    }     
+
+    _limpaFormulario() {
+        this._inputData.value = '';
+        this._inputQuantidade.value = 1;
+        this._inputValor.value = 0.0
+
+        this._inputData.focus();
+
     }
 
 

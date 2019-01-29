@@ -5,13 +5,12 @@
     <title>Negociações</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
-    
 </head>
 <body class="container">
     
     <h1 class="text-center">Negociações</h1>
     
-    <form class="form" onsubmit="negociacoesController.adiciona(event)">        
+    <form class="form" onsubmit="negociacaoController.adiciona(event)">        
         <div class="form-group">
             <label for="data">Data</label>
             <input type="date" id="data" class="form-control" required autofocus/>        
@@ -40,11 +39,27 @@
     </div> 
     <br>
     <br>
-    <div id="negociacoesView"></div>
- 
+    
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>DATA</th>
+                <th>QUANTIDADE</th>
+                <th>VALOR</th>
+                <th>VOLUME</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+        </tbody>
+        
+        <tfoot>
+               
+        </tfoot>
+    </table>
 
    <!-- <script src="scripts/index.js"></script>-->
-    <!--<script src="scripts/capitulo_1.js"></script>-->
+    <script src="scripts/capitulo_1.js"></script>
     <script src="scripts/model/Negociacao.js"></script>
     <script src="scripts/controller/NegociacaoController.js"></script>
     <script src="scripts/model/ListaNegociacoes.js"></script>  
@@ -52,10 +67,10 @@
     <script src="scripts/view/NegociacoesView.js"></script>
     <script>
     
-        let negociacoesController = new NegociacaoController();
-        //ConversorXML.testaConversor();
-        //let negociacoesView = new NegociacoesView()
-        //negociacoesView._template();
+    
+        ConversorXML.testaConversor();
+        let negociacoesView = new NegociacoesView()
+        negociacoesView.template();
     
     
     </script>
