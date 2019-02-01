@@ -63,20 +63,20 @@
                     console.log(`${this._codigo}: ${nome}`);
                 });
             }
-        
 
 
-        imprime_Arrow_Function(nomes) {
 
-            nomes.forEach( (nome) =>{
-                console.log('Chamando o this._codigo dentro de uma arrow function, ou seja, estático/léxico');
-                console.log(this);
-                console.log(`${this._codigo}: ${nome}`);
-            });
+            imprime_Arrow_Function(nomes) {
+
+                nomes.forEach((nome) => {
+                    console.log('Chamando o this._codigo dentro de uma arrow function, ou seja, estático/léxico');
+                    console.log(this);
+                    console.log(`${this._codigo}: ${nome}`);
+                });
+            }
+
+
         }
-
-    
-    }
 
 
 
@@ -84,11 +84,77 @@
         let nomes = ['Flávio', 'Nico', 'Douglas'];
         let si = new SistemaImpressao();
         si.imprime_Arrow_Function(nomes);
-        si.imprime(nomes);
-     
+       // si.imprime(nomes);
+
+    </script>
+
+    <script>
+
+
+        class Aviao {
+
+            constructor(nome) {
+                this._nome = nome;
+            }
+
+            voa() {
+
+                alert(`Executando método voa de avião : ${this._nome} está voando`);
+            }
+
+            ligaMotor() {
+                console.log('liga o motor');
+            }
+
+            fechaPortas() {
+                console.log('Portas sendo fechadas');
+            }
+        }
+
+        class Passarinho {
+
+            constructor(nome) {
+                this._nome = nome;
+                // guarda uma instância de avião para composição
+                // this._aviao = new Aviao(nome);
+            }
+
+            voaComComposicao() {
+                // usa o método voa de Aviao através de composição
+                this._aviao.voa();
+            }
+
+
+            voaComMixin() {
+
+                console.log("PASSARINHO VOANDO COM REFLECTION (MIXIN) ");
+
+                /*
+                NESTE MÉTODO A INSTÂNCIA DE AVIÃO NO CONSTRUTOR NÃO PRECISA
+                Com mixin podemos "pegar emprestado" o método de outra classe sem termos que 
+                ter uma instância dessa classe como é o caso de composição.
+    
+                */
+
+                // executa o método `voa` de `Avião` usando como contexto a instância de `Passarinho`
+                Reflect.apply(Aviao.prototype.voa, this, []);
+
+            }
+
+
+            voaNoES5() {
+                console.log('Chamei voaNoES5 na classe Passarinho')
+                //TEM O MESMO EFEITO DO Reflect.appy
+                Aviao.prototype.voa.apply(this, []);
+            }
 
 
 
+        }
+
+        let passarinho = new Passarinho();
+        //passarinho.voaComMixin();
+        passarinho.voaNoES5();
 
     </script>
 
