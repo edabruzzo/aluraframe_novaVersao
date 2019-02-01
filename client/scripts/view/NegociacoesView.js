@@ -7,7 +7,7 @@ class NegociacoesView extends View{
 
 
     //o template só saberá que é uma lista de negociações em tempo de execução
-    _template(model) {
+    template(model) {
         console.log('Model.negociacoes : '+model.negociacoes);        
         return `
         <table class="table table-hover table-bordered">

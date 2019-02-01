@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Negociações</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
-    
+
 </head>
+
 <body class="container">
-    
+
     <h1 class="text-center">Negociações</h1>
 
     <div id="mensagemView"></div>
-    
-    <form class="form" onsubmit="negociacoesController.adiciona(event)">        
+
+    <form class="form" onsubmit="negociacoesController.adiciona(event)">
         <div class="form-group">
             <label for="data">Data</label>
-            <input type="date" id="data" class="form-control" required autofocus/>        
-        </div>    
-        
+            <input type="date" id="data" class="form-control" required autofocus />
+        </div>
+
         <div class="form-group">
             <label for="quantidade">Quantidade</label>
-            <input type="number" min="1" step="1" id="quantidade" class="form-control" value="1" required/>
+            <input type="number" min="1" step="1" id="quantidade" class="form-control" value="1" required />
         </div>
-        
+
         <div class="form-group">
             <label for="valor">Valor</label>
-            <input id="valor" type="number" class="form-control"  min="0.01" step="0.01" value="0.0" required />
+            <input id="valor" type="number" class="form-control" min="0.01" step="0.01" value="0.0" required />
         </div>
-        
+
         <button class="btn btn-primary" type="submit">Incluir</button>
     </form>
-    
+
     <div class="text-center">
         <button class="btn btn-primary text-center" type="button">
             Importar Negociações
@@ -39,27 +41,41 @@
         <button class="btn btn-primary text-center" type="button">
             Apagar
         </button>
-    </div> 
+    </div>
     <br>
     <br>
     <div id="negociacoesView"></div>
- 
 
-   <!-- <script src="scripts/index.js"></script>-->
+
+    <!-- <script src="scripts/index.js"></script>-->
     <!--<script src="scripts/capitulo_1.js"></script>-->
     <script src="scripts/model/Negociacao.js"></script>
     <script src="scripts/controller/NegociacaoController.js"></script>
     <script src="scripts/model/ListaNegociacoes.js"></script>
     <script src="scripts/model/Mensagem.js"></script>
     <script src="scripts/helper/DateHelper.js"></script>
-    <script src="scripts/helper/ConversorXML.js"></script>  
+    <script src="scripts/helper/ConversorXML.js"></script>
     <script src="scripts/view/View.js"></script>
     <script src="scripts/view/NegociacoesView.js"></script>
     <script src="scripts/view/MensagemView.js"></script>
-    
-    
+    <script src="scripts/helper/Conta.js"></script>
+    <script src="scripts/helper/ContaCorrente.js"></script>
+    <script src="scripts/helper/ContaPoupanca.js"></script>
+
+
+
+
     <script>
-    
+
+
+
+        conta1 = new ContaCorrente(200, 20);
+        conta2 = new ContaPoupanca(200, 20);
+        conta1.atualiza()
+        conta2.atualiza();
+        console.log(conta1.saldo); //220
+        console.log(conta2.saldo); //240
+
         let negociacoesController = new NegociacaoController();
         //ConversorXML.testaConversor();
         //let negociacoesView = new NegociacoesView()
@@ -71,8 +87,8 @@
         //SEM ESPECIFICAR O VALOR NO CONSTRUTOR, ESPERANDO QUE O VALOR PADRÃO SEJA O ADOTADO
         let mensagem2 = new Mensagem();
         console.log(mensagem2.texto);
-    
-    
+
+
     </script>
 </body>
 
