@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>DINAMICO COM FUNCTION</h1>
+    <p>PARAGRAFO</p>
+    <div>DADOS</div>
+
+
+    <h2>LÉXICO - COM ARROW FUNCTION</h2>
+    <h3>PARAGRAFO</h3>
+    <h4>DADOS</h4>
+
+    <script>
+        console.log(this); // é window
+
+        let exibeConteudo = function () {
+            console.log(this);
+            alert(this.textContent);
+        };
+
+        let exibeConteudo_NAO_DINAMICO = () => {
+            console.log(this);
+            alert(this.textContent);
+        };
+
+        $ = document.querySelector.bind(document);
+
+        $('h1').addEventListener('click', exibeConteudo);
+
+        $('p').addEventListener('click', exibeConteudo);
+
+        $('div').addEventListener('click', exibeConteudo);
+
+        $('h2').addEventListener('click', exibeConteudo_NAO_DINAMICO);
+
+        $('h3').addEventListener('click', exibeConteudo_NAO_DINAMICO);
+
+        $('h4').addEventListener('click', exibeConteudo_NAO_DINAMICO);
+
+    </script>
+
+    <script>
+
+
+        class SistemaImpressao {
+
+            constructor() {
+                this._codigo = 2;
+            }
+
+            imprime(nomes) {
+
+                nomes.forEach(function (nome) {
+                    console.log('Chamando o this._codigo dentro de uma function(), ou seja, dinamico')
+                    console.log(this);
+                    console.log(`${this._codigo}: ${nome}`);
+                });
+            }
+        
+
+
+        imprime_Arrow_Function(nomes) {
+
+            nomes.forEach( (nome) =>{
+                console.log('Chamando o this._codigo dentro de uma arrow function, ou seja, estático/léxico');
+                console.log(this);
+                console.log(`${this._codigo}: ${nome}`);
+            });
+        }
+
+    
+    }
+
+
+
+
+        let nomes = ['Flávio', 'Nico', 'Douglas'];
+        let si = new SistemaImpressao();
+        si.imprime_Arrow_Function(nomes);
+        si.imprime(nomes);
+     
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>
