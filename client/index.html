@@ -10,6 +10,8 @@
 <body class="container">
     
     <h1 class="text-center">Negociações</h1>
+
+    <div id="mensagemView"></div>
     
     <form class="form" onsubmit="negociacoesController.adiciona(event)">        
         <div class="form-group">
@@ -47,15 +49,28 @@
     <!--<script src="scripts/capitulo_1.js"></script>-->
     <script src="scripts/model/Negociacao.js"></script>
     <script src="scripts/controller/NegociacaoController.js"></script>
-    <script src="scripts/model/ListaNegociacoes.js"></script>  
+    <script src="scripts/model/ListaNegociacoes.js"></script>
+    <script src="scripts/model/Mensagem.js"></script>
+    <script src="scripts/helper/DateHelper.js"></script>
     <script src="scripts/helper/ConversorXML.js"></script>  
+    <script src="scripts/view/View.js"></script>
     <script src="scripts/view/NegociacoesView.js"></script>
+    <script src="scripts/view/MensagemView.js"></script>
+    
+    
     <script>
     
         let negociacoesController = new NegociacaoController();
         //ConversorXML.testaConversor();
         //let negociacoesView = new NegociacoesView()
         //negociacoesView._template();
+
+        let mensagem = new Mensagem('Flávio Almeida');
+        console.log(mensagem.texto);
+
+        //SEM ESPECIFICAR O VALOR NO CONSTRUTOR, ESPERANDO QUE O VALOR PADRÃO SEJA O ADOTADO
+        let mensagem2 = new Mensagem();
+        console.log(mensagem2.texto);
     
     
     </script>

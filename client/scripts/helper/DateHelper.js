@@ -1,4 +1,4 @@
-class Helper{
+class DateHelper{
 
     constructor(){
         throw new Error('Esta classe não é para ser instanciada. Os métodos da classe são estáticos');
@@ -18,5 +18,6 @@ class Helper{
         return new Date(...texto.split('-').map((item, indice) => item - indice % 2));
     }
 
-
 }
+
+

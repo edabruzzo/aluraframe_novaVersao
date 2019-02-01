@@ -10,7 +10,10 @@ class NegociacaoController {
           this.inputValor = $('#valor');
           this._listaNegociacoes = new ListaNegociacoes();
           this._negociacoesView = new NegociacoesView($('#negociacoesView'));
-          //this._negociacoesView.update();
+          this._negociacoesView.update(this._listaNegociacoes);
+          this._mensagem = new Mensagem();
+          this._mensagemView = new MensagemView($('#mensagemView'));
+          this._mensagemView.update(this._mensagem);
 
     }
 
@@ -18,7 +21,7 @@ class NegociacaoController {
 
     adicionaNegociacao(event) {
         event.preventDefault();
-        console.log('Chamando uma ação no controller');
+        alert('Chamando adicionaNegociacao no controller');
 
 
         let campos = [
@@ -60,6 +63,8 @@ class NegociacaoController {
        event.preventDefault();
         alert('Entrou no método adiciona do controller');
         this._listaNegociacoes.adiciona(this._criaNegociacao());
+        this._mensagem.texto = 'Negociacao adicionada com sucesso';
+        this._mensagemView.update(this._mensagem);  
         console.log(this._listaNegociacoes.negociacoes);
         this._negociacoesView.update(this._listaNegociacoes);
         this._limpaFormulario();
@@ -70,21 +75,21 @@ class NegociacaoController {
 
     _criaNegociacao(){
 
-    return 
-    new Negociacao(
-        DateHelper.textoParaData(this._inputData.value),
-        this._inputQuantidade.value,
-        this._inputValor.value
-    );
+        console.log('Entrou em _criaNegociacao no NegociacaoController');
+      
+    return new Negociacao(
+        DateHelper.textoParaData(this.inputData.value),
+        this.inputQuantidade.value,
+        this.inputValor.value );
 
     }     
 
     _limpaFormulario() {
-        this._inputData.value = '';
-        this._inputQuantidade.value = 1;
-        this._inputValor.value = 0.0
+        this.inputData.value = '';
+        this.inputQuantidade.value = 1;
+        this.inputValor.value = 0.0
 
-        this._inputData.focus();
+        this.inputData.focus();
 
     }
 
