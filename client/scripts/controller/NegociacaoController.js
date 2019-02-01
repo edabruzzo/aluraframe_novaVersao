@@ -8,16 +8,10 @@ class NegociacaoController {
           this.inputData = $('#data');
           this.inputQuantidade =  $('#quantidade');
           this.inputValor = $('#valor');
-          //sempre que instanciarmos uma lista de negociações faremos a atualização da lista através de uma função anônima
-          //aqui estou passando no construtor o contexto (this) para execução da armadilha no Reflect.apply(...)
-          this._listaNegociacoes = new ListaNegociacoes(this, 
-           (function(model){
-               //este this aqui é do contexto da ListaNegociacoes, só que eu preciso executar o update
-               //de negociacoesView
-                this._negociacoesView.update(model);
-
-            })()  
-          );
+//Então, o this de uma arrow function é léxico, 
+//enquanto o this de uma função padrão é dinâmico. Com esse ajuste, conseguimos deixar o nosso código mais sucinto.
+          this._listaNegociacoes = new ListaNegociacoes(
+              model => this._negociacoesView.update(model));
           
           this._negociacoesView = new NegociacoesView($('#negociacoesView'));
           this._negociacoesView.update(this._listaNegociacoes);

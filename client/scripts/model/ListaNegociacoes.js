@@ -2,11 +2,11 @@
 
 class ListaNegociacoes{
 
-    constructor(contexto, armadilha){
+    constructor(armadilha){
 
         this._negociacoes = [];
         this._armadilha = armadilha;
-        this._contexto = contexto;
+        
     }
 
     adiciona(negociacao) {
@@ -14,7 +14,7 @@ class ListaNegociacoes{
         this._negociacoes.push(negociacao);
         //Ferramenta de reflection do javascript
         //executa a armadilha no contexto especificado
-        Reflect.apply(this._armadilha, this._contexto, (this));
+       this._armadilha(this);
     
     }
 
@@ -31,7 +31,7 @@ class ListaNegociacoes{
         this._negociacoes = [];
         //Ferramenta de reflection do javascript
         //executa a armadilha no contexto especificado
-        Reflect.apply(this._armadilha, this._contexto, (this));    
+        this._armadilha(this);   
    
     }
 
