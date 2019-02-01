@@ -8,7 +8,17 @@ class NegociacaoController {
           this.inputData = $('#data');
           this.inputQuantidade =  $('#quantidade');
           this.inputValor = $('#valor');
-          this._listaNegociacoes = new ListaNegociacoes();
+          //sempre que instanciarmos uma lista de negociações faremos a atualização da lista através de uma função anônima
+          //aqui estou passando no construtor o contexto (this) para execução da armadilha no Reflect.apply(...)
+          this._listaNegociacoes = new ListaNegociacoes(this, 
+           (function(model){
+               //este this aqui é do contexto da ListaNegociacoes, só que eu preciso executar o update
+               //de negociacoesView
+                this._negociacoesView.update(model);
+
+            })()  
+          );
+          
           this._negociacoesView = new NegociacoesView($('#negociacoesView'));
           this._negociacoesView.update(this._listaNegociacoes);
           this._mensagem = new Mensagem();
@@ -66,11 +76,27 @@ class NegociacaoController {
         this._mensagem.texto = 'Negociacao adicionada com sucesso';
         this._mensagemView.update(this._mensagem);  
         console.log(this._listaNegociacoes.negociacoes);
-        this._negociacoesView.update(this._listaNegociacoes);
+        //está sendo feito no construtor
+        // this._negociacoesView.update(this._listaNegociacoes);
         this._limpaFormulario();
        
 
     }
+
+
+
+    apagaNegociacoes(event){
+
+        this._listaNegociacoes.esvazia();
+        //está sendo feito no construtor
+        //this._negociacoesView.update(this._listaNegociacoes);
+    
+        this._mensagem.texto = 'Negociações apagadas com sucesso';
+        this._mensagemView.update(this._mensagem);
+
+
+    }
+
 
 
     _criaNegociacao(){
