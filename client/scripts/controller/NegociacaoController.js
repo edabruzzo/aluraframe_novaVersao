@@ -24,6 +24,7 @@ class NegociacaoController {
 
 
     adicionaNegociacao(event) {
+
         event.preventDefault();
         alert('Chamando adicionaNegociacao no controller');
 
@@ -97,11 +98,23 @@ class NegociacaoController {
 
         console.log('Entrou em _criaNegociacao no NegociacaoController');
       
-    return new Negociacao(
+        
+    return new Proxy(new Negociacao(
         DateHelper.textoParaData(this.inputData.value),
         this.inputQuantidade.value,
-        this.inputValor.value );
+        this.inputValor.value ), {
 
+         get: function(target, propertKey, receiver){
+
+            console.log(`a propriedade "${propertKey}" foi interceptada`);
+            
+            return Reflect.get(target, propertKey, receiver);
+         }  
+                 
+
+        });
+
+      
     }     
 
     _limpaFormulario() {
