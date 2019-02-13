@@ -10,8 +10,18 @@ class NegociacaoController {
           this.inputValor = $('#valor');
 //Então, o this de uma arrow function é léxico, 
 //enquanto o this de uma função padrão é dinâmico. Com esse ajuste, conseguimos deixar o nosso código mais sucinto.
-          this._listaNegociacoes = new ListaNegociacoes(
-              model => this._negociacoesView.update(model));
+//lista de Negociações vai ser um Proxy para interceptar as modificações na lista
+this._listaNegociacoes = new Proxy( new ListaNegociacoes(
+              model => this._negociacoesView.update(model), {
+                    //handler
+                    set: function(target, propertKey, value, receiver){
+           
+                       console.log(`Valor anterior: ${target[prop]} interceptado. Novo valor: ${value}`);
+                    
+                       return Reflect.set(target, propertKey, value, receiver);
+                    }  
+           
+              }));
           
           this._negociacoesView = new NegociacoesView($('#negociacoesView'));
           this._negociacoesView.update(this._listaNegociacoes);
@@ -99,23 +109,13 @@ class NegociacaoController {
         console.log('Entrou em _criaNegociacao no NegociacaoController');
       
         
-    return new Proxy(new Negociacao(
+    return new Negociacao(
         DateHelper.textoParaData(this.inputData.value),
         this.inputQuantidade.value,
-        this.inputValor.value ), {
-
-         get: function(target, propertKey, receiver){
-
-            console.log(`a propriedade "${propertKey}" foi interceptada`);
-            
-            return Reflect.get(target, propertKey, receiver);
-         }  
-                 
-
-        });
-
-      
-    }     
+        this.inputValor.value );
+    }
+    
+    
 
     _limpaFormulario() {
         this.inputData.value = '';
