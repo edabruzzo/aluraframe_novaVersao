@@ -1,33 +1,22 @@
 class NegociacaoController {
 
- 
-    constructor(){
 
-          //a função bind(document) amarra a variável $ ao documento por conta da perda de escopo
-          let $ = document.querySelector.bind(document);
-          this.inputData = $('#data');
-          this.inputQuantidade =  $('#quantidade');
-          this.inputValor = $('#valor');
-//Então, o this de uma arrow function é léxico, 
-//enquanto o this de uma função padrão é dinâmico. Com esse ajuste, conseguimos deixar o nosso código mais sucinto.
-//lista de Negociações vai ser um Proxy para interceptar as modificações na lista
-this._listaNegociacoes = new Proxy( new ListaNegociacoes(
-              model => this._negociacoesView.update(model), {
-                    //handler
-                    set: function(target, propertKey, value, receiver){
-           
-                       console.log(`Valor anterior: ${target[prop]} interceptado. Novo valor: ${value}`);
-                    
-                       return Reflect.set(target, propertKey, value, receiver);
-                    }  
-           
-              }));
-          
-          this._negociacoesView = new NegociacoesView($('#negociacoesView'));
-          this._negociacoesView.update(this._listaNegociacoes);
-          this._mensagem = new Mensagem();
-          this._mensagemView = new MensagemView($('#mensagemView'));
-          this._mensagemView.update(this._mensagem);
+    constructor() {
+
+        //a função bind(document) amarra a variável $ ao documento por conta da perda de escopo
+        let $ = document.querySelector.bind(document);
+        this.inputData = $('#data');
+        this.inputQuantidade = $('#quantidade');
+        this.inputValor = $('#valor');
+        //Então, o this de uma arrow function é léxico, 
+        //enquanto o this de uma função padrão é dinâmico. Com esse ajuste, conseguimos deixar o nosso código mais sucinto.
+        //lista de Negociações vai ser um Proxy para interceptar as modificações na lista
+        this._negociacoesView = new NegociacoesView($('#negociacoesView'));
+        this._listaNegociacoes = new Bind(new ListaNegociacoes(), this._negociacoesView, ['adiciona', 'esvazia']);
+        this._negociacoesView.update(this._listaNegociacoes);
+        this._mensagemView = new MensagemView($('#mensagemView'));
+        this._mensagem = new Bind(new Mensagem(), this._mensagemView, ['texto']);
+
 
     }
 
@@ -75,47 +64,47 @@ this._listaNegociacoes = new Proxy( new ListaNegociacoes(
     //Outra forma de se fazer a mesma coisa em adicionaNegociacao(event)
     adiciona(event) {
 
-       event.preventDefault();
+        event.preventDefault();
         alert('Entrou no método adiciona do controller');
         this._listaNegociacoes.adiciona(this._criaNegociacao());
         this._mensagem.texto = 'Negociacao adicionada com sucesso';
-        this._mensagemView.update(this._mensagem);  
+        // this._mensagemView.update(this._mensagem);  
         console.log(this._listaNegociacoes.negociacoes);
         //está sendo feito no construtor
         // this._negociacoesView.update(this._listaNegociacoes);
         this._limpaFormulario();
-       
+
 
     }
 
 
 
-    apagaNegociacoes(event){
+    apagaNegociacoes(event) {
 
         this._listaNegociacoes.esvazia();
         //está sendo feito no construtor
         //this._negociacoesView.update(this._listaNegociacoes);
-    
+
         this._mensagem.texto = 'Negociações apagadas com sucesso';
-        this._mensagemView.update(this._mensagem);
+        //this._mensagemView.update(this._mensagem);
 
 
     }
 
 
 
-    _criaNegociacao(){
+    _criaNegociacao() {
 
         console.log('Entrou em _criaNegociacao no NegociacaoController');
-      
-        
-    return new Negociacao(
-        DateHelper.textoParaData(this.inputData.value),
-        this.inputQuantidade.value,
-        this.inputValor.value );
+
+
+        return new Negociacao(
+            DateHelper.textoParaData(this.inputData.value),
+            this.inputQuantidade.value,
+            this.inputValor.value);
     }
-    
-    
+
+
 
     _limpaFormulario() {
         this.inputData.value = '';

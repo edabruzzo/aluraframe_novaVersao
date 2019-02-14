@@ -49,6 +49,8 @@
 
     <!-- <script src="scripts/index.js"></script>-->
     <!--<script src="scripts/capitulo_1.js"></script>-->
+    <script src="scripts/helper/Bind.js"></script>
+    <script src="scripts/model/ProxyFactory.js"></script>
     <script src="scripts/model/Negociacao.js"></script>
     <script src="scripts/controller/NegociacaoController.js"></script>
     <script src="scripts/model/ListaNegociacoes.js"></script>
@@ -67,7 +69,42 @@
 
     <script>
 
+class Funcionario {
 
+constructor(email) {
+    this._email = email;
+}
+
+get email() {
+    return this._email;
+}
+
+set email(email) {
+    this._email = email;
+}
+}
+
+   
+        let funcionarioProxy = new Proxy(new Funcionario("xxxxxxxxxx"), {
+
+            set(target, prop, value, receiver){
+                //console.log('XXXXXXXXXXXXX');
+            console.log( `imprimindo a propriedade que está sendo alterada: ${prop}`);    
+            console.log(`Valor anterior: ${target[prop]} interceptado. Novo valor: ${value}`);
+            return Reflect.set(target, prop, value, receiver);
+
+        }});
+
+        //operação de alteração
+        funcionarioProxy.email = 'emmanuel.oliveira3@gmail.com';
+        
+        console.log(`E-mail do funcionário: ${funcionarioProxy.email}`);
+
+       
+        //console.log(`E-mail do funcionário: ${funcionario.email}`);
+
+
+/*
 
         conta1 = new ContaCorrente(200, 20);
         conta2 = new ContaPoupanca(200, 20);
@@ -87,9 +124,60 @@
         //SEM ESPECIFICAR O VALOR NO CONSTRUTOR, ESPERANDO QUE O VALOR PADRÃO SEJA O ADOTADO
         let mensagem2 = new Mensagem();
         console.log(mensagem2.texto);
-
+*/
 
     </script>
+
+<script>
+
+
+class Pessoa {
+
+constructor(nome) {
+    this._nome = nome;
+}
+
+get nome() {
+    return this._nome;
+}
+
+set nome(nome) {
+    this._nome = nome;
+}
+
+grita(frase) {
+        return `${this._nome} grita ${frase}`;
+}
+}
+
+let pessoa = new Proxy(new Pessoa('Barney'),{
+
+    
+    get(target, prop, receiver){
+         if(prop == 'grita' && typeof(target[prop]) == typeof(Function)){
+
+            return function(){
+                console.log(`Interceptei o método: ${prop}, por isso estou exbindo essa mensagem!`);    
+                    
+         //console.log("ENTROU NO PROXY DE PESSOA") ; 
+         //console.log(`Método chamado: ${prop}`);    
+        // Quando usarmos Reflect.apply, Reflect.get e Reflect.set precisamos retornar o resultado da operação com return
+        // arguments é uma variável implícita que dá acesso à todos os parâmetros recebidos pelo método/função
+         return  Reflect.apply(target[prop], target, arguments);
+       
+    }
+
+    }
+    return Reflect.get(target, prop, receiver);
+    }
+    
+});
+console.log(pessoa.grita('Olá'));
+
+
+</script>
+
+
 </body>
 
 </html>
