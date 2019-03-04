@@ -1,6 +1,7 @@
 class NegociacoesService {
 
-
+    //no curso da Alura o instrutor fala em isolar este comportamento numa classe HttpService
+    //Eu não entendo necessário. O isolamento num  método no próprio NegociacoesService é suficiente.
     fazerRequisicaoGETAssíncrono(url) {
 
         return new Promise((resolve, reject) => {
