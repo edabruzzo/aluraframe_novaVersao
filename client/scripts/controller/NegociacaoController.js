@@ -90,38 +90,41 @@ class NegociacaoController {
        que chama vários callbacks seguidos.
 
     */
-   importaNegociacoes() {
+    importaNegociacoes() {
 
-    let service = new NegociacaoService();
+        let service = new NegociacaoService();
 
-    service.obterNegociacoesDaSemana()
-    //resolve
-      .then(negociacoes => {
-        negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-        this._mensagem.texto = 'Negociações da semana obtidas com sucesso';
-    })
-    //reject
-    .catch(erro => this._mensagem.texto = erro);
+        /*
+        Creates a Promise that is resolved with an array of results when all 
+        of the provided Promises resolve, or rejected when any Promise is rejected.
+        */
+       /*
+       Recebe como parametro um array de Promises
+       */
+        Promise.all([
+            //recebe uma lista de Promises
+            service.obterNegociacoesDaSemana(),
+            service.obterNegociacoesDaSemanaAnterior(),
+            service.obterNegociacoesDaSemanaRetrasada() ]
+        )
+            //resolve
+            .then(negociacoes => {
+                negociacoes
+                //antes de iterar pelo forEach, temos que usar o reduce para extrair os elementos da lista
+                //pois temos um array de array, através de flatten no array, com a função reduce
+                .reduce((arrayAchatado, array) => arrayAchatado.concat(array), [])
+                .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+                this._mensagem.texto = 'Negociações da semana obtidas com sucesso';
+            })
+            //reject
+            .catch(erro => this._mensagem.texto = erro);
 
-    service.obterNegociacoesDaSemanaAnterior()
-      .then(negociacoes => {
-        negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-        this._mensagem.texto = 'Negociações da semana obtidas com sucesso';
-    })
-    .catch(erro => this._mensagem.texto = erro);
 
-    service.obterNegociacoesDaSemanaRetrasada()
-      .then(negociacoes => {
-        negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-        this._mensagem.texto = 'Negociações da semana obtidas com sucesso';
-    })
-    .catch(erro => this._mensagem.texto = erro);
-
-}
-                
     }
 
-    
+
+
+
 
     apagaNegociacoes(event) {
 
