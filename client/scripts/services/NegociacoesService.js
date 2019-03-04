@@ -28,6 +28,34 @@ class NegociacoesService {
 
 
 
+    fazerRequisicaoPOSTAssincrono(url, dado) {
+
+
+        return new Promise((resolve, reject) => {
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = () => {
+
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status == 200) {
+
+                        resolve(JSON.parse(xhr.responseText));
+                    } else {
+
+                        reject(xhr.responseText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(dado)); // usando JSON.stringifly para converter objeto em uma string no formato JSON.
+        });
+
+    }
+
+    
+
     obterNegociacoesSemana() {
 
         let url = 'negociacoes/semana';
@@ -56,6 +84,42 @@ class NegociacoesService {
 
     }
 
+
+    obterNegociacoes(){
+
+
+
+         /*
+        Creates a Promise that is resolved with an array of results when all 
+        of the provided Promises resolve, or rejected when any Promise is rejected.
+        */
+       /*
+       Recebe como parametro um array de Promises
+       */
+      Promise.all([
+        //recebe uma lista de Promises
+        service.obterNegociacoesDaSemana(),
+        service.obterNegociacoesDaSemanaAnterior(),
+        service.obterNegociacoesDaSemanaRetrasada() ]
+    )
+        //resolve
+        .then(periodos => {
+           
+            let negociacoes = periodos
+            //antes de iterar pelo forEach, temos que usar o reduce para extrair os elementos da lista
+            //pois temos um array de array, através de flatten no array, com a função reduce
+            .reduce((dados, periodo) => dados.concat(periodo), []);
+            
+            return negociacaoes;
+        })
+        //reject
+        .catch(erro => 
+            {
+                throw new Error(erro);
+ 
+            });
+
+    }
 
 
 }
