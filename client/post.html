@@ -1,0 +1,92 @@
+<!-- aluraframe/client/post.html -->
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Negociações</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
+</head>
+
+<body class="container">
+    <form class="form">
+
+        <div class="form-group">
+            <label for="data">Data</label>
+            <input type="date" id="data" class="form-control" required autofocus />
+        </div>
+
+        <div class="form-group">
+            <label for="quantidade">Quantidade</label>
+            <input type="number" min="1" step="1" id="quantidade" class="form-control" value="1" required />
+        </div>
+
+        <div class="form-group">
+            <label for="valor">Valor</label>
+            <input id="valor" type="number" class="form-control" min="0.01" step="0.01" value="0.0" required />
+        </div>
+
+        <button class="btn btn-primary" type="submit" onclick="sendPost(event)">
+            Enviar dados para servidor</button>
+    </form>
+
+    <script>
+
+        function sendPost(event) {
+
+            event.preventDefault();
+            console.log("Enviando post");
+
+            //aqui você deve ler os dados do formulário
+            let $ = document.querySelector.bind(document);
+            inputData = $('#data');
+            inputQuantidade = $('#quantidade');
+            inputValor = $('#valor');
+
+            //transforma em um objeto
+            let negociacao = {
+                data: inputData.value,
+                quantidade: inputQuantidade.value,
+                valor: inputValor.value
+            };
+
+
+            var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+            var url = "/negociacoes";
+
+            //último parametro booleano indica que é uma requisição assíncrona 
+            xmlhttp.open('POST', url, true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xmlhttp.onreadystatechange = () => {
+
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status == 200) {
+                        //resetando os valores
+                        inputData.value = '';
+                        inputQuantidade.value = 1;
+                        inputValor.value = 0.0;
+                        inputData.focus();
+                        alert('Negociação enviada com sucesso');
+                    } else {
+                        alert(`Não foi possível enviar a negociação: ${xhr.responseText}`);
+                    }
+                }
+            }
+            //construíndo o JSON e já enviando a requisição POST
+            /*
+            Um detalhe: não podemos enviar o objeto negociacao diretamente, 
+            precisamos convertê-lo para string, porque no protocolo HTTP 
+            os dados são transmitidos no formato texto. 
+            Veja que fizemos o contrário de quando recebemos os dados vindos do servidor. 
+            Lá, convertemos string em objeto.
+
+            */
+            xmlhttp.send(JSON.stringify(negociacao));
+
+        }
+    </script>
+</body>
+
+</html>
