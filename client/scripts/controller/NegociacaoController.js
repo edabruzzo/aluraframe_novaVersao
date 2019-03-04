@@ -78,6 +78,25 @@ class NegociacaoController {
     }
 
 
+    importaNegociacoes() {
+
+        let service = new NegociacoesService();
+
+         //passando uma função callback como parametro
+         //Error-First-Callback
+        service.obterNegociacoesDaSemana((err, negociacoes) => {
+                if(err) {
+                    this._mensagem.texto = err;
+                    return;
+                }
+
+                negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+                this._mensagem.texto = 'Negociações importadas com sucesso';
+            });
+           
+        }
+
+    
 
     apagaNegociacoes(event) {
 
