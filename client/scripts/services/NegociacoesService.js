@@ -1,55 +1,57 @@
 class NegociacoesService {
 
 
-    fazerRequisicaoGET(url) {
+    fazerRequisicaoGETAssíncrono(url) {
 
-        let xhr = new XMLHttpRequest();
-        /* configurações */
-        xhr.open('GET', url);
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // this._mensagem.texto = 'Negociações importadas com sucesso.';
-                console.log(xhr.responseText);
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            /* configurações */
+            xhr.open('GET', url);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // this._mensagem.texto = 'Negociações importadas com sucesso.';
+                    console.log(xhr.responseText);
 
-                callback(null, JSON.parse(xhr.responseText)
-                    .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)));
+                    resolve(null, JSON.parse(xhr.responseText)
+                        .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor)));
 
-            } else {
-                callback('Não foi possível obter as negociações da semana', null);
-                console.log(xhr.responseText);
-            }
-        };
+                } else {
+                    reject('Não foi possível obter as negociações da semana', null);
+                    console.log(xhr.responseText);
+                }
+            };
 
-        xhr.send();
+            xhr.send();
+        });
     }
 
 
 
-    obterNegociacoesSemana(callback) {
+    obterNegociacoesSemana() {
 
         let url = 'negociacoes/semana';
 
-        fazerRequisicaoGET(url);
+       return fazerRequisicaoGETAssíncrono(url);
     }
 
 
 
-    obterNegociacoesDaSemanaAnterior(callback) {
+    obterNegociacoesDaSemanaAnterior() {
 
         url = 'negociacoes/anterior';
 
-        fazerRequisicaoGET(url);
+       return fazerRequisicaoGETAssíncrono(url);
 
     }
 
 
 
 
-    obterNegociacoesDaSemanaRetrasada(callback) {
+    obterNegociacoesDaSemanaRetrasada() {
 
         let url = 'negociacoes/retrasada';
 
-        fazerRequisicaoGET(url);
+        return fazerRequisicaoGETAssíncrono(url);
 
     }
 
