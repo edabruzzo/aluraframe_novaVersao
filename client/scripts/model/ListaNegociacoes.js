@@ -38,4 +38,13 @@ class ListaNegociacoes{
      }
 
 
+     ordenaListaNegociacoes(criterio){
+         return this._negociacoes.sort(criterio);
+     }
+
+     inverteOrdem(){
+         return this._negociacoes.reverse();
+     }
+
+
 }

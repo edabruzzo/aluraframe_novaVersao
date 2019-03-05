@@ -12,11 +12,12 @@ class NegociacaoController {
         //enquanto o this de uma função padrão é dinâmico. Com esse ajuste, conseguimos deixar o nosso código mais sucinto.
         //lista de Negociações vai ser um Proxy para interceptar as modificações na lista
         this._negociacoesView = new NegociacoesView($('#negociacoesView'));
-        this._listaNegociacoes = new Bind(new ListaNegociacoes(), this._negociacoesView, ['adiciona', 'esvazia']);
+        this._listaNegociacoes = new Bind(new ListaNegociacoes(), 
+                                this._negociacoesView, ['adiciona', 'esvazia', 'ordena', 'inverteOrdem']);
         this._negociacoesView.update(this._listaNegociacoes);
         this._mensagemView = new MensagemView($('#mensagemView'));
         this._mensagem = new Bind(new Mensagem(), this._mensagemView, ['texto']);
-
+        this._ordemAtual = ''; // quando a página for carregada, não tem critério. Só passa a ter quando ele começa a clicar nas colunas
 
     }
 
@@ -144,6 +145,18 @@ class NegociacaoController {
 
     }
 
+
+    ordenaListaNegociacoes(coluna){
+
+            if(this._ordemAtual == coluna) {
+                // inverte a ordem da lista!
+                this._listaNegociacoes.inverteOrdem();
+            } else {
+                this._listaNegociacoes.ordena((a, b) => a[coluna] - b[coluna]);
+            }
+            this._ordemAtual = coluna;
+        }
+    
 
 
 }
