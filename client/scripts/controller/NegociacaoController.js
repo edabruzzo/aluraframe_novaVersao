@@ -1,3 +1,5 @@
+import { timingSafeEqual } from "crypto";
+
 class NegociacaoController {
 
 
@@ -67,6 +69,7 @@ class NegociacaoController {
 
         event.preventDefault();
         alert('Entrou no método adiciona do controller');
+        try{
         this._listaNegociacoes.adiciona(this._criaNegociacao());
         this._mensagem.texto = 'Negociacao adicionada com sucesso';
         // this._mensagemView.update(this._mensagem);  
@@ -74,6 +77,9 @@ class NegociacaoController {
         //está sendo feito no construtor
         // this._negociacoesView.update(this._listaNegociacoes);
         this._limpaFormulario();
+        }catch(erro){
+            this._mensagem.texto = erro;
+        }
 
 
     }

@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script src="scripts/models/Negociacao.js"></script>
+     <script src="scripts/testes/IndexedDBTests.js"></script>
+<!--    <script>
+
+        window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB ||
+            window.msIndexedDB;
+
+        window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction ||
+            window.msIDBTransaction;
+        window.IDBKeyRange = window.IDBKeyRange ||
+            window.webkitIDBKeyRange || window.msIDBKeyRange
+
+        if (!window.indexedDB) {
+            window.alert("Your browser doesn't support a stable version of IndexedDB.")
+        }
+
+
+        var db;
+        var request = window.indexedDB.open("newDatabase", 1);
+
+        request.onerror = function (event) {
+            console.log("error: ");
+        };
+
+        request.onsuccess = function (event) {
+            db = request.result;
+            console.log("success: " + db);
+        };
+
+        request.onupgradeneeded = function (event) {
+            var db = event.target.result;
+            var objectStore = db.createObjectStore("negociacoes", { keyPath: "id" });
+
+
+            let listaNegociacoes = [];
+            let negociacao1 = new Negociacao(new Date(), 200, 2);
+            let negociacao2 = new Negociacao(new Date(), 300, 3);
+
+            listaNegociacoes.push(negociacao1, negociacao2);
+            console.log(listaNegociacoes);
+
+
+            for (var i in listaNegociacoes) {
+                console.log('Adicionando negociacao :');
+                console.log(listaNegociacoes[i]);
+            }
+        }
+
+            function add() {
+
+                var request = db.transaction(["negociacoes"], "readwrite")
+                    .objectStore("negociacoes")
+                    .add(negociacao1)
+                    .add(negociacao2);
+
+                request.onsuccess = function (event) {
+                    alert("Negociações adicionadas.");
+                };
+
+                request.onerror = function (event) {
+                    alert("Não foi possível adicionar as negociações ao banco ");
+                }
+            }
+
+            function readAll() {
+                var objectStore = db.transaction("negociacoes").objectStore("negociacoes");
+
+                objectStore.openCursor().onsuccess = function (event) {
+                    var cursor = event.target.result;
+
+                    if (cursor) {
+
+                        alert("Negociacao " + cursor.key + " is " + cursor.value.valor + "Quantidade: " + cursor.value.quantidade + ", Data: " + cursor.value.data);
+                        cursor.continue();
+                    } else {
+                        alert("No more entries!");
+                    }
+                };
+            }
+
+            //add();
+            readAll();
+
+    </script>
+-->
+</body>
+
+</html>

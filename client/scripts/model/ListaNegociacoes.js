@@ -38,7 +38,7 @@ class ListaNegociacoes{
      }
 
 
-     ordenaListaNegociacoes(criterio){
+     ordena(criterio){
          return this._negociacoes.sort(criterio);
      }
 
